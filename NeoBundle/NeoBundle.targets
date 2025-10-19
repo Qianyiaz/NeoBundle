@@ -1,0 +1,17 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <UsingTask
+            TaskName="NeoBundle.BundleAppTask"
+            AssemblyFile="$(MSBuildThisFileDirectory)..\lib\netstandard2.1\NeoBundle.dll" />
+    <Target
+            Name="BundleApp"
+            AfterTargets="Publish">
+        <BundleAppTask
+                OutDir="$(OutDir)"
+                Version="$(Version)"
+                Authors="$(Authors)"
+                PublishDir="$(PublishDir)"
+                AppName="$(AssemblyName)"
+                IconFile="$(ApplicationIcon)"
+                Copyright="$(Copyright)"/>
+    </Target>
+</Project>

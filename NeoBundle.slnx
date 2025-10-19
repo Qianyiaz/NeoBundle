@@ -1,0 +1,4 @@
+﻿<Solution>
+    <Project Path="NeoBundle.Test\NeoBundle.Test.csproj"/>
+    <Project Path="NeoBundle\NeoBundle.csproj"/>
+</Solution>

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <Version>1.0.3.0</Version>
+        <LangVersion>preview</LangVersion>
+        <Copyright>By Qianyiaz</Copyright>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RepositoryUrl>https://github.com/Qianyiaz/NeoBundle</RepositoryUrl>
+        <Description>MSBuild task and CLI tools for bundling .NET projects into MacOS(.app).</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="..\README.md" PackagePath="\" Pack="true"/>
+        <PackageReference Include="Microsoft.Build.Framework" Version="*"/>
+        <Content Include="NeoBundle.targets" PackagePath="build" Pack="true"/>
+        <PackageReference Include="Microsoft.Build.Utilities.Core" Version="*"/>
+    </ItemGroup>
+
+</Project>
