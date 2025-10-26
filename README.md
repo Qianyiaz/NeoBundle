@@ -8,21 +8,15 @@ Install MSBuild task via NuGet package: `NeoBundle`
 
 [![NuGet](https://img.shields.io/nuget/v/NeoBundle.svg)](https://www.nuget.org/packages/NeoBundle/)
 
-```
+```xml
 <PackageReference Include="NeoBundle" Version="*"/>
-```
-
-### Using the tool
-
-```
-dotnet publish -r osx-x64 
 ```
 
 ### Properties
 
 Define properties to override default bundle values
 
-```
+```xml
 <PropertyGroup>
     <Version>1.0.2.8</Version>
     <Authors>Qianyiaz</Authors>

@@ -2,6 +2,7 @@ name: Project Publishing
 permissions:
   contents: read
   packages: write
+  id-token: write
 on:
   push:
     paths: [ 'NeoBundle/**', '**/Publish.yml' ]
@@ -14,7 +15,11 @@ jobs:
         with:
           path: ~/.nuget/packages
           key: nuget-cache
+      - uses: NuGet/login@v1
+        id: login
+        with:
+           user: Qusay
       - run: |
           dotnet pack NeoBundle\NeoBundle.csproj
+          dotnet nuget push **\NeoBundle.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{steps.login.outputs.NUGET_API_KEY}} --skip-duplicate
           dotnet nuget push **\NeoBundle.*.nupkg --source https://nuget.pkg.github.com/Qianyiaz/index.json --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
-          dotnet nuget push **\NeoBundle.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGETKEY }} --skip-duplicate
