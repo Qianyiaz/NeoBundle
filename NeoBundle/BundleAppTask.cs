@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using Microsoft.Build.Framework;
 using Task = Microsoft.Build.Utilities.Task;
 
@@ -19,6 +20,14 @@ public class BundleAppTask : Task
 
     public override bool Execute()
     {
+#if RELEASE
+        if(!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            Log.LogError("App bundling is only supported on macOS.");
+            return false;
+        }
+#endif
+        
         new AppBuilder(this)
             .Build()
             .Bundle()

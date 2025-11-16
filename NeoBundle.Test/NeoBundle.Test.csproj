@@ -2,14 +2,31 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <LangVersion>preview</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
     
-    <ItemGroup>
-        <PackageReference Include="NeoBundle" Version="1.0.3.0"/>
-    </ItemGroup>
+    <UsingTask
+            TaskName="NeoBundle.BundleAppTask"
+            AssemblyFile="..\NeoBundle\bin\Debug\netstandard2.1\NeoBundle.dll" />
+    
+    <Target
+            Name="BundleApp"
+            AfterTargets="Publish">
+        <BundleAppTask
+                OutDir="$(OutDir)"
+                Version="$(Version)"
+                Authors="$(Authors)"
+                PublishDir="$(PublishDir)"
+                AppName="$(AssemblyName)"
+                IconFile="$(ApplicationIcon)"
+                Copyright="$(Copyright)"/>
+    </Target>
 
+    <ItemGroup>
+        <ProjectReference Include="..\NeoBundle\NeoBundle.csproj" />
+    </ItemGroup>
+    
 </Project>
