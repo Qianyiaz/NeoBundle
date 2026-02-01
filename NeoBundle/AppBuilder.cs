@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using System.Xml;
 
@@ -5,7 +6,8 @@ namespace NeoBundle
 {
     public class AppBuilder(BundleAppTask task)
     {
-        private string AppDirectory => Path.Combine(Path.Combine(task.PublishDir, task.AppName + ".app"));
+        public string AppDirectory => Path.Combine(task.PublishDir, $"{task.AppName}.app");
+        public string DmgPath => Path.Combine(task.PublishDir, $"{task.AppName}.dmg");
         private string ContentsDirectory => Path.Combine(AppDirectory, "Contents");
         private string MacosDirectory => Path.Combine(ContentsDirectory, "MacOS");
         private string ResourcesDirectory => Path.Combine(ContentsDirectory, "Resources");
@@ -110,6 +112,26 @@ namespace NeoBundle
                 return;
             writer.WriteElementString("key", key);
             writer.WriteElementString("string", value);
+        }
+
+        public AppBuilder CreateDmg()
+        {
+            StartProcess("/bin/ln", $"-s /Applications \"{Path.Combine(AppDirectory, "Applications")}\"");
+            
+            StartProcess("/usr/bin/hdiutil", $"create -volname \"{task.AppName}\" -srcfolder \"{AppDirectory}\" -ov -format UDZO \"{DmgPath}\"");
+            return this;
+        }
+        
+        private void StartProcess(string fileName, string arguments)
+        {
+            using var proc = Process.Start(new ProcessStartInfo
+            {
+                FileName = fileName,
+                Arguments = arguments,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            });
+            proc?.WaitForExit();
         }
     }
 }

@@ -28,12 +28,16 @@ public class BundleAppTask : Task
         }
 #endif
         
-        new AppBuilder(this)
+        var builder = new AppBuilder(this)
             .Build()
             .Bundle()
-            .CreatePlist();
+            .CreatePlist()
+            .CreateDmg();
+        
         Log.LogMessage(MessageImportance.High,
-            $"{AppName}.app -> {Path.Combine(Path.GetFullPath(PublishDir), $"{AppName}.app")}");
+            $"{AppName}.app -> {builder.AppDirectory}");
+        Log.LogMessage(MessageImportance.High,
+            $"{AppName}.dmg -> {builder.DmgPath}");
         return true;
     }
 }
